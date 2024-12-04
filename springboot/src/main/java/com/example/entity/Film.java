@@ -23,6 +23,9 @@ public class Film {
     private List<Integer> ids;
     private List<String> types;
 
+    private String typeId;
+    private String year;
+
     public String getEnglish() {
         return english;
     }
@@ -157,5 +160,21 @@ public class Film {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public String getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(String typeId) {
+        this.typeId = typeId;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
     }
 }

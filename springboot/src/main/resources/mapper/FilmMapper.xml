@@ -9,6 +9,9 @@
         <where>
             <if test="title != null"> and film.title like concat('%', #{title}, '%')</if>
             <if test="status != null"> and status = #{status}</if>
+            <if test="areaId != null"> and area_id = #{areaId}</if>
+            <if test="typeId != null"> and type_ids like concat('%', #{typeId}, '%')</if>
+            <if test="year != null"> and start like concat('%', #{year}, '%')</if>
         </where>
     </select>
 
