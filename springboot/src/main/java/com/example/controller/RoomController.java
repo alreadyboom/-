@@ -1,8 +1,8 @@
 package com.example.controller;
 
 import com.example.common.Result;
-import com.example.entity.Film;
-import com.example.service.FilmService;
+import com.example.entity.Room;
+import com.example.service.RoomService;
 import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
@@ -13,18 +13,18 @@ import java.util.List;
  * 前端请求接口
  */
 @RestController
-@RequestMapping("/film")
-public class FilmController {
+@RequestMapping("/room")
+public class RoomController {
 
     @Resource
-    private FilmService filmService;
+    private RoomService roomService;
 
     /**
      * 新增
      */
     @PostMapping("/add")
-    public Result add(@RequestBody Film film) {
-        filmService.add(film);
+    public Result add(@RequestBody Room room) {
+        roomService.add(room);
         return Result.success();
     }
 
@@ -32,8 +32,8 @@ public class FilmController {
      * 修改
      */
     @PutMapping("/update")
-    public Result update(@RequestBody Film film) {
-        filmService.updateById(film);
+    public Result update(@RequestBody Room room) {
+        roomService.updateById(room);
         return Result.success();
     }
 
@@ -42,7 +42,7 @@ public class FilmController {
      */
     @DeleteMapping("/delete/{id}")
     public Result delete(@PathVariable Integer id) {
-        filmService.deleteById(id);
+        roomService.deleteById(id);
         return Result.success();
     }
 
@@ -51,7 +51,7 @@ public class FilmController {
      */
     @DeleteMapping("/delete/batch")
     public Result delete(@RequestBody List<Integer> ids) {
-        filmService.deleteBatch(ids);
+        roomService.deleteBatch(ids);
         return Result.success();
     }
 
@@ -60,16 +60,16 @@ public class FilmController {
      */
     @GetMapping("/selectById/{id}")
     public Result selectById(@PathVariable Integer id) {
-        Film film = filmService.selectById(id);
-        return Result.success(film);
+        Room room = roomService.selectById(id);
+        return Result.success(room);
     }
 
     /**
      * 查询所有
      */
     @GetMapping("/selectAll")
-    public Result selectAll(Film film) {
-        List<Film> list = filmService.selectAll(film);
+    public Result selectAll(Room room) {
+        List<Room> list = roomService.selectAll(room);
         return Result.success(list);
     }
 
@@ -77,10 +77,10 @@ public class FilmController {
      * 分页查询
      */
     @GetMapping("/selectPage")
-    public Result selectPage(Film film,
+    public Result selectPage(Room room,
                              @RequestParam(defaultValue = "1") Integer pageNum,
                              @RequestParam(defaultValue = "10") Integer pageSize) {
-        PageInfo<Film> pageInfo = filmService.selectPage(film, pageNum, pageSize);
+        PageInfo<Room> pageInfo = roomService.selectPage(room, pageNum, pageSize);
         return Result.success(pageInfo);
     }
 

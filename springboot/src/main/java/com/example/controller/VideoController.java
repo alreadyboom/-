@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import cn.hutool.core.date.DateUtil;
 import com.example.common.Result;
 import com.example.entity.Video;
 import com.example.service.VideoService;
@@ -24,6 +25,7 @@ public class VideoController {
      */
     @PostMapping("/add")
     public Result add(@RequestBody Video video) {
+        video.setTime(DateUtil.now());
         videoService.add(video);
         return Result.success();
     }
