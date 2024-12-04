@@ -24,6 +24,7 @@
             <if test="name != null">name,</if>
             <if test="img != null">img,</if>
             <if test="video != null">video,</if>
+            <if test="time != null">time,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">#{id},</if>
@@ -31,6 +32,7 @@
             <if test="name != null">#{name},</if>
             <if test="img != null">#{img},</if>
             <if test="video != null">#{video},</if>
+            <if test="time != null">#{time},</if>
         </trim>
     </insert>
 

@@ -6,9 +6,19 @@ public class Video {
     private String name;
     private String img;
     private String video;
-
+    private String time;
     private String filmName;
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
     private String filmImg;
+
 
     public Integer getId() {
         return id;
