@@ -97,9 +97,11 @@
           </template>
         </el-table-column>
         <el-table-column prop="role" label="角色" />
-        <el-table-column label="操作" width="100" fixed="right">
+        <el-table-column label="操作" width="200" fixed="right">
           <template v-slot="scope">
-            <el-button type="primary" circle :icon="Edit" @click="handleEdit(scope.row)"></el-button>
+            <el-button type="success" circle :icon="Select" @click="handleStatus(scope.row,'审核通过')"></el-button>
+            <el-button type="info" circle :icon="CloseBold" @click="handleStatus(scope.row,'审核拒绝')"></el-button>
+            <el-button type="primary" circle :icon="Edit" @click="handleEdit(scope.row.id)"></el-button>
             <el-button type="danger" circle :icon="Delete" @click="del(scope.row.id)"></el-button>
           </template>
         </el-table-column>
@@ -184,7 +186,7 @@
 import {reactive} from "vue";
 import request from "@/utils/request.js";
 import {ElMessage, ElMessageBox} from "element-plus";
-import {Delete, Edit} from "@element-plus/icons-vue";
+import {CloseBold, Delete, Edit, Select} from "@element-plus/icons-vue";
 
 const baseUrl = import.meta.env.VITE_BASE_URL
 
@@ -279,6 +281,13 @@ const delBatch = () => {
     console.error(err)
   })
 }
+const handleStatus = (row, status) => {
+  data.form=JSON.parse(JSON.stringify(row))
+  data.form.status = status
+  update()
+}
+
+
 const handleSelectionChange = (rows) => {
   data.ids = rows.map(v => v.id)
 }
