@@ -10,7 +10,7 @@
       <el-button type="info" plain @click="load">查询</el-button>
       <el-button type="warning" plain style="margin: 0 10px" @click="reset">重置</el-button>
     </div>
-    <div class="card" style="margin-bottom: 5px">
+    <div class="card" style="margin-bottom: 5px" v-if="data.user.role === 'ADMIN'">
       <el-button type="primary" plain @click="handleAdd">新增</el-button>
       <el-button type="danger" plain @click="delBatch">批量删除</el-button>
     </div>
@@ -18,7 +18,7 @@
     <div class="card" style="margin-bottom: 5px">
       <el-table tooltip-effect="dark widthStyle" stripe :data="data.tableData"
                 @selection-change="handleSelectionChange">
-        <el-table-column type="selection" width="55"/>
+        <el-table-column type="selection" width="55" v-if="data.user.role === 'ADMIN'"/>
         <el-table-column type="expand">
           <template #default="props">
             <el-descriptions class="margin-top" title="电影信息" :column="5" border>
@@ -94,7 +94,7 @@
             <el-tag v-if="scope.row.status === '停止上映'" type="danger">{{ scope.row.status }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="100" fixed="right">
+        <el-table-column label="操作" width="100" fixed="right" v-if="data.user.role === 'ADMIN'">
           <template v-slot="scope">
             <el-button type="primary" circle :icon="Edit" @click="handleEdit(scope.row)"></el-button>
             <el-button type="danger" circle :icon="Delete" @click="del(scope.row.id)"></el-button>
@@ -203,6 +203,7 @@ import {Delete, Edit} from "@element-plus/icons-vue";
 const baseUrl = import.meta.env.VITE_BASE_URL
 
 const data = reactive({
+  user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
   formVisible: false,
   form: {},
   tableData: [],

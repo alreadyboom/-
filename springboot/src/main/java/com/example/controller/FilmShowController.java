@@ -1,8 +1,8 @@
 package com.example.controller;
 
 import com.example.common.Result;
-import com.example.entity.Film;
-import com.example.service.FilmService;
+import com.example.entity.FilmShow;
+import com.example.service.FilmShowService;
 import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
@@ -10,21 +10,21 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * 前端请求接口
+ * 电影放映记录前端请求接口
  */
 @RestController
-@RequestMapping("/film")
-public class FilmController {
+@RequestMapping("/show")
+public class FilmShowController {
 
     @Resource
-    private FilmService filmService;
+    private FilmShowService filmShowService;
 
     /**
      * 新增
      */
     @PostMapping("/add")
-    public Result add(@RequestBody Film film) {
-        filmService.add(film);
+    public Result add(@RequestBody FilmShow filmShow) {
+        filmShowService.add(filmShow);
         return Result.success();
     }
 
@@ -32,8 +32,8 @@ public class FilmController {
      * 修改
      */
     @PutMapping("/update")
-    public Result update(@RequestBody Film film) {
-        filmService.updateById(film);
+    public Result update(@RequestBody FilmShow filmShow) {
+        filmShowService.updateById(filmShow);
         return Result.success();
     }
 
@@ -42,7 +42,7 @@ public class FilmController {
      */
     @DeleteMapping("/delete/{id}")
     public Result delete(@PathVariable Integer id) {
-        filmService.deleteById(id);
+        filmShowService.deleteById(id);
         return Result.success();
     }
 
@@ -51,7 +51,7 @@ public class FilmController {
      */
     @DeleteMapping("/delete/batch")
     public Result delete(@RequestBody List<Integer> ids) {
-        filmService.deleteBatch(ids);
+        filmShowService.deleteBatch(ids);
         return Result.success();
     }
 
@@ -60,16 +60,16 @@ public class FilmController {
      */
     @GetMapping("/selectById/{id}")
     public Result selectById(@PathVariable Integer id) {
-        Film film = filmService.selectById(id);
-        return Result.success(film);
+        FilmShow filmShow = filmShowService.selectById(id);
+        return Result.success(filmShow);
     }
 
     /**
      * 查询所有
      */
     @GetMapping("/selectAll")
-    public Result selectAll(Film film) {
-        List<Film> list = filmService.selectAll(film);
+    public Result selectAll(FilmShow filmShow) {
+        List<FilmShow> list = filmShowService.selectAll(filmShow);
         return Result.success(list);
     }
 
@@ -77,10 +77,10 @@ public class FilmController {
      * 分页查询
      */
     @GetMapping("/selectPage")
-    public Result selectPage(Film film,
+    public Result selectPage(FilmShow filmShow,
                              @RequestParam(defaultValue = "1") Integer pageNum,
                              @RequestParam(defaultValue = "10") Integer pageSize) {
-        PageInfo<Film> pageInfo = filmService.selectPage(film, pageNum, pageSize);
+        PageInfo<FilmShow> pageInfo = filmShowService.selectPage(filmShow, pageNum, pageSize);
         return Result.success(pageInfo);
     }
 
