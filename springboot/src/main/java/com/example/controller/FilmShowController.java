@@ -88,7 +88,6 @@ public class FilmShowController {
         return Result.success(pageInfo);
     }
 
-<<<<<<< HEAD
     @GetMapping("/selectByFilmId/{id}")
     public Result selectByFilmId(@PathVariable Integer id) {
         List<Cinema> list = filmShowService.selectByFilmId(id);
@@ -101,6 +100,4 @@ public class FilmShowController {
         return Result.success(list);
     }
 
-=======
->>>>>>> b4af807292479cfd3389b29bfb20a8192b70461d
 }
