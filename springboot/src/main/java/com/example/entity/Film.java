@@ -26,6 +26,16 @@ public class Film {
     private String typeId;
     private String year;
 
+    private List<String> actors;
+
+    public List<String> getActors() {
+        return actors;
+    }
+
+    public void setActors(List<String> actors) {
+        this.actors = actors;
+    }
+
     public String getEnglish() {
         return english;
     }

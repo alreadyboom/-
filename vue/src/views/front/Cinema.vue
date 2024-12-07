@@ -17,7 +17,7 @@
         </div>
       </div>
       <div style="width: 120px; margin-left: 10px">
-        <el-button style="padding: 20px 30px" type="primary" plain>进入购票</el-button>
+        <el-button style="padding: 20px 30px" type="primary" plain @click="$router.push('/front/cinemaDetail?id=' + item.id)">进入购票</el-button>
       </div>
     </div>
     <div style="margin-top: 40px" v-if="data.total">

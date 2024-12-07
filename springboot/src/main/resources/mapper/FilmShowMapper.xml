@@ -14,6 +14,7 @@
             <if test="time != null"> and film_show.time like concat('%', #{time}, '%')</if>
             <if test="status != null"> and film_show.status = #{status}</if>
             <if test="cinemaId != null"> and film_show.cinema_id = #{cinemaId}</if>
+            <if test="filmId != null"> and film_show.film_id = #{filmId}</if>
         </where>
         order by id desc
     </select>

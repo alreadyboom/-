@@ -13,6 +13,16 @@ public class User extends Account {
     private String phone;
     private String email;
 
+    public Double getAccount() {
+        return account;
+    }
+
+    public void setAccount(Double account) {
+        this.account = account;
+    }
+
+    private Double account;
+
     public Integer getId() {
         return id;
     }

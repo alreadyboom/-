@@ -1,7 +1,9 @@
 package com.example.service;
 
 import cn.hutool.core.date.DateUtil;
+import com.example.entity.Area;
 import com.example.entity.Film;
+import com.example.mapper.AreaMapper;
 import com.example.mapper.FilmMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -25,6 +27,8 @@ public class FilmService {
     private FilmMapper filmMapper;
     @Resource
     private TypeMapper typeMapper;
+    @Resource
+    private AreaMapper areaMapper;
 
     public void add(Film film) {
         film.setTypeIds(JSONUtil.toJsonStr(film.getIds()));
@@ -48,7 +52,21 @@ public class FilmService {
     }
 
     public Film selectById(Integer id) {
-        return filmMapper.selectById(id);
+        Film film = filmMapper.selectById(id);
+        List<Integer> ids = JSONUtil.toList(film.getTypeIds(), Integer.class);
+        List<String> tmpList = new ArrayList<>();
+        for (Integer typeId : ids) {
+            Type type = typeMapper.selectById(typeId);
+            if (ObjectUtil.isNotEmpty(type)) {
+                tmpList.add(type.getTitle());
+            }
+        }
+        Area area = areaMapper.selectById(film.getAreaId());
+        if (ObjectUtil.isNotEmpty(area)) {
+            film.setAreaName(area.getTitle());
+        }
+        film.setTypes(tmpList);
+        return film;
     }
 
     public List<Film> selectAll(Film film) {
