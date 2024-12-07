@@ -104,7 +104,6 @@ public class UserService {
         dbUser.setPassword(account.getNewPassword());
         userMapper.updateById(dbUser);
     }
-
     public void register(Account account) {
         User user = new User();
         BeanUtils.copyProperties(account, user);

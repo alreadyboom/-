@@ -1,11 +1,11 @@
 package com.example.service;
 
-import cn.hutool.core.date.DateUtil;
 import com.example.entity.Actor;
 import com.example.entity.Area;
 import com.example.entity.Film;
 import com.example.mapper.ActorMapper;
 import com.example.mapper.AreaMapper;
+
 import com.example.mapper.FilmMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -21,6 +21,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 /**
  * 业务层方法
  */
@@ -31,10 +32,12 @@ public class FilmService {
     private FilmMapper filmMapper;
     @Resource
     private TypeMapper typeMapper;
+
     @Resource
     private AreaMapper areaMapper;
     @Resource
     private ActorMapper actorMapper;
+
 
     public void add(Film film) {
         film.setTypeIds(JSONUtil.toJsonStr(film.getIds()));
@@ -133,6 +136,7 @@ public class FilmService {
         }
         return null;
     }
+
 
 
 }

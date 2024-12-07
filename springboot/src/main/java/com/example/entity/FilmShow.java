@@ -13,6 +13,7 @@ public class FilmShow {
     private String filmImg;
     private String roomName;
     private String cinemaName;
+
     private Film film;
 
     public Film getFilm() {
@@ -22,6 +23,7 @@ public class FilmShow {
     public void setFilm(Film film) {
         this.film = film;
     }
+
 
     public Integer getId() {
         return id;

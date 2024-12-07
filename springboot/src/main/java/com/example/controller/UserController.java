@@ -84,10 +84,12 @@ public class UserController {
         return Result.success(pageInfo);
     }
 
+
     @PostMapping("/recharge")
     public Result recharge(@RequestBody User user) {
         User dbUser = userService.recharge(user);
         return Result.success(dbUser);
     }
+
 
 }

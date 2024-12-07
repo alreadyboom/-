@@ -12,6 +12,7 @@ public interface FilmShowMapper {
     void deleteById(Integer id);
 
     @Select("select * from `film_show` where id = #{id}")
+
     FilmShow selectById(Integer id);
 
     List<FilmShow> selectAll(FilmShow show);

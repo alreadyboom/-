@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import com.example.common.enums.RoleEnum;
 import com.example.utils.TokenUtils;
 import java.util.stream.Collectors;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +35,7 @@ public class FilmShowService {
     private ActorMapper actorMapper;
     @Resource
     private RoomMapper roomMapper;
+
 
     public void add(FilmShow filmShow) {
         Account currentUser = TokenUtils.getCurrentUser();
