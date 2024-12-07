@@ -1,10 +1,12 @@
 package com.example.service;
 
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.json.JSONUtil;
 import com.example.common.enums.RoleEnum;
 import com.example.entity.*;
 import com.example.exception.CustomException;
+import com.example.mapper.FilmMapper;
 import com.example.mapper.FilmShowMapper;
 import com.example.mapper.OrdersMapper;
 import com.example.mapper.UserMapper;
@@ -16,7 +18,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class OrdersService {
@@ -27,6 +31,8 @@ public class OrdersService {
     private FilmShowMapper filmShowMapper;
     @Resource
     private UserMapper userMapper;
+    @Resource
+    private FilmMapper filmMapper;
 
     @Transactional
     public void add(Orders orders) {
@@ -48,6 +54,11 @@ public class OrdersService {
         user.setAccount(user.getAccount() - orders.getPrice());
         userMapper.updateById(user);
         ordersMapper.insert(orders);
+        // 更新一下电影的票房
+        Film film = filmMapper.selectById(orders.getFilmId());
+        film.setTotal(film.getTotal() + orders.getPrice());
+        System.out.println(film.getTotal());
+        filmMapper.updateById(film);
     }
 
     public void updateById(Orders orders) {
@@ -102,6 +113,34 @@ public class OrdersService {
         User user = userMapper.selectById(orders.getUserId());
         user.setAccount(user.getAccount() + orders.getPrice());
         userMapper.updateById(user);
+        // 扣除电影的票房
+        Film film = filmMapper.selectById(orders.getFilmId());
+        if (ObjectUtil.isNotEmpty(film)) {
+            film.setTotal(film.getTotal() - orders.getPrice());
+            filmMapper.updateById(film);
+        }
+    }
+
+    public Map<String, Object> todayTotal() {
+        Orders orders = new Orders();
+        orders.setCreateTime(DateUtil.today());
+        List<Orders> list = ordersMapper.selectAll(orders);
+        double sum = list.stream().mapToDouble(Orders::getPrice).sum();
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("total", sum);
+        map.put("time", DateUtil.now());
+        return map;
+    }
+
+    public Double selectTodayPrice(Integer filmId) {
+        Orders orders = new Orders();
+        orders.setFilmId(filmId);
+        List<Orders> list = ordersMapper.selectAll(orders);
+        return list.stream()
+                .filter(x -> !"已退票".equals(x.getStatus()) && x.getCreateTime().contains(DateUtil.today()))
+                .mapToDouble(Orders::getPrice)
+                .sum();
     }
 
 }

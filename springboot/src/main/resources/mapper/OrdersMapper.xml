@@ -18,6 +18,7 @@
             <if test="roomId != null"> and orders.room_id = #{roomId}</if>
             <if test="showId != null"> and orders.show_id = #{showId}</if>
             <if test="cinemaName != null"> and cinema.name like concat('%', #{cinemaName}, '%')</if>
+            <if test="createTime != null"> and orders.create_time like concat('%', #{createTime}, '%')</if>
         </where>
         order by id desc
     </select>

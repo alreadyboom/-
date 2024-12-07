@@ -8,6 +8,7 @@ import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/orders")
@@ -89,5 +90,19 @@ public class OrdersController {
         ordersService.cancel(id);
         return Result.success();
     }
+
+    @GetMapping("/todayTotal")
+    public Result todayTotal() {
+        Map<String, Object> resultMap = ordersService.todayTotal();
+        return Result.success(resultMap);
+    }
+
+    @GetMapping("/selectTodayPrice/{filmId}")
+    public Result selectTodayPrice(@PathVariable Integer filmId) {
+        Double price = ordersService.selectTodayPrice(filmId);
+        return Result.success(price);
+    }
+
+
 
 }
