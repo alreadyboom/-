@@ -25,6 +25,26 @@ public class Film {
 
     private String typeId;
     private String year;
+    private Double total;
+
+    public Double getTotal() {
+        return total;
+    }
+
+    public void setTotal(Double total) {
+        this.total = total;
+    }
+
+    private List<String> actors;
+
+    public List<String> getActors() {
+        return actors;
+    }
+
+    public void setActors(List<String> actors) {
+        this.actors = actors;
+    }
+
 
     public String getEnglish() {
         return english;

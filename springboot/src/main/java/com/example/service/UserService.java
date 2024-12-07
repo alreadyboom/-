@@ -56,7 +56,11 @@ public class UserService {
     }
 
     public User selectById(Integer id) {
-        return userMapper.selectById(id);
+        User dbUser = userMapper.selectById(id);
+        // 生成token
+        String token = TokenUtils.createToken(dbUser.getId() + "-" + dbUser.getRole(), dbUser.getPassword());
+        dbUser.setToken(token);
+        return dbUser;
     }
 
     public List<User> selectAll(User user) {
@@ -104,5 +108,16 @@ public class UserService {
         User user = new User();
         BeanUtils.copyProperties(account, user);
         add(user);
+    }
+
+    public User recharge(User user) {
+        Double rechargeNum = user.getAccount();
+        User dbUser = userMapper.selectById(user.getId());
+        dbUser.setAccount(dbUser.getAccount() + rechargeNum);
+        userMapper.updateById(dbUser);
+        // 生成token
+        String token = TokenUtils.createToken(dbUser.getId() + "-" + dbUser.getRole(), dbUser.getPassword());
+        dbUser.setToken(token);
+        return dbUser;
     }
 }

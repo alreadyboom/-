@@ -46,7 +46,7 @@
             <el-table-column prop="price" label="售价" />
             <el-table-column label="操作" width="100" fixed="right">
               <template v-slot="scope">
-                <el-button type="danger"  @click="">选座购票</el-button>
+                <el-button type="danger"  @click="$router.push('/front/seat?id=' + scope.row.id)">选座购票</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -80,7 +80,7 @@ const loadCinema = () => {
   data.cinemaId = router.currentRoute.value.query.id
   request.get('/cinema/selectById/' + data.cinemaId).then(res => {
     if (res.code === '200') {
-      data.cinemaData = res.data
+       data.cinemaData = res.data
     } else {
       ElMessage.error(res.msg)
     }
@@ -89,7 +89,9 @@ const loadCinema = () => {
 const loadFilm = () => {
   request.get('/show/selectByCinemaId/' + data.cinemaId).then(res => {
     if (res.code === '200') {
-      data.filmData = res.data
+      // data.filmData = res.data
+      data.filmData = Array.from(new Set(res.data.map(item => item.id)))
+          .map(id => res.data.find(item => item.id === id));
       if (data.filmId) {
         let list = data.filmData.filter(v => v.id + '' === data.filmId)
         data.film = list[0]

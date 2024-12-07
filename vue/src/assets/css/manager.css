@@ -5,14 +5,14 @@
 
 .manager-header {
     height: 50px;
-    background-color: #cedcf8;
+    background-color: #fcfcfc;
     display: flex;
     align-items: center;
     box-shadow: 0 1px 4px rgba(0, 21, 41, .08);
 }
 
 .manager-header-left {
-    background-color: #cedcf8;
+    background-color: #fcfcfc;
     width: 200px;
     height: 100%;
     padding-left: 10px;
@@ -29,7 +29,7 @@
     font-weight: bold;
     font-size: 20px;
     margin-left: 10px;
-    color: #eee;
+    color: #130c0c;
 }
 
 .manager-header-center {
@@ -86,8 +86,8 @@
 }
 
 .el-menu-item.is-active {
-    color: #cedcf8;
-    border-left: 3px solid #cedcf8;
+    color: #130c0c;
+    border-left: 3px solid #130c0c;
 }
 
 .el-menu-item:not(.is-active):hover {
@@ -95,20 +95,20 @@
 }
 .el-menu-item:hover {
     background-color: white !important;
-    color: #cedcf8 !important;
+    color: #130c0c !important;
 }
 
 /deep/.el-breadcrumb__inner {
-    color: white !important;
+    color: #130c0c !important;
 }
 
 /deep/.manager-header-right span {
-    color: white;
+    color: #fcfcfc;
 }
 
 /deep/.is-active .el-sub-menu__title {
-    color: #cedcf8 !important;
+    color: #130c0c !important;
 }
 .is-active i {
-    color: #cedcf8 !important;
+    color: #130c0c !important;
 }

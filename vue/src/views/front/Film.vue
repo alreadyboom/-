@@ -44,7 +44,7 @@
     <div style="margin-top: 50px">
       <el-row :gutter="15">
         <el-col :span="5" v-for="item in data.filmData" style="margin-bottom: 30px">
-          <img :src="item.img" alt="" style="width: 100%; height: 230px; border-top-left-radius: 5px; border-top-right-radius: 5px; cursor: pointer">
+          <img :src="item.img" alt="" style="width: 100%; height: 230px; border-top-left-radius: 5px; border-top-right-radius: 5px; cursor: pointer" @click="$router.push('/front/filmDetail?id=' + item.id)">
           <div style="margin-top: 5px; font-size: 16px">{{ item.title }}</div>
           <div style="margin-top: 10px; display: flex; align-items: center">
             <div style="flex: 1">

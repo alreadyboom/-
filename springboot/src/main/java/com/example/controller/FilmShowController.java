@@ -1,11 +1,15 @@
 package com.example.controller;
 
 import com.example.common.Result;
+import com.example.entity.Film;
 import com.example.entity.FilmShow;
+import com.example.entity.Cinema;
+
 import com.example.service.FilmShowService;
 import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
 
@@ -82,6 +86,18 @@ public class FilmShowController {
                              @RequestParam(defaultValue = "10") Integer pageSize) {
         PageInfo<FilmShow> pageInfo = filmShowService.selectPage(filmShow, pageNum, pageSize);
         return Result.success(pageInfo);
+    }
+
+    @GetMapping("/selectByFilmId/{id}")
+    public Result selectByFilmId(@PathVariable Integer id) {
+        List<Cinema> list = filmShowService.selectByFilmId(id);
+        return Result.success(list);
+    }
+
+    @GetMapping("/selectByCinemaId/{id}")
+    public Result selectByCinemaId(@PathVariable Integer id) {
+        List<Film> list = filmShowService.selectByCinemaId(id);
+        return Result.success(list);
     }
 
 }
