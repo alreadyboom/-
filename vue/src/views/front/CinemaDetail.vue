@@ -46,11 +46,7 @@
             <el-table-column prop="price" label="售价" />
             <el-table-column label="操作" width="100" fixed="right">
               <template v-slot="scope">
-<<<<<<< HEAD
                 <el-button type="danger"  @click="$router.push('/front/seat?id=' + scope.row.id)">选座购票</el-button>
-=======
-                <el-button type="danger"  @click="">选座购票</el-button>
->>>>>>> b4af807292479cfd3389b29bfb20a8192b70461d
               </template>
             </el-table-column>
           </el-table>
