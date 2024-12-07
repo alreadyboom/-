@@ -96,6 +96,9 @@
             <if test="score != null">
                 score = #{score},
             </if>
+            <if test="total != null">
+                total = #{total},
+            </if>
         </set>
         where id = #{id}
     </update>

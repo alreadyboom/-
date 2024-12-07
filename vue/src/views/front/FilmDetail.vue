@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div style="background: linear-gradient(to right, #46187e, #32046b, #32115b); height: 320px">
+    <div style="background: linear-gradient(to right, #f6bfc4, #fcfcfc, #c2f1c9); height: 320px">
       <div style="width: 55%; margin: 0 auto; height: 320px; display: flex; align-items: center">
         <img :src="data.filmData.img" alt="" style="width: 280px; height: 320px">
-        <div style="flex: 1; color: white; padding: 20px 35px">
+        <div style="flex: 1; color: #130c0c; padding: 20px 35px">
           <div style="font-size: 26px">{{ data.filmData.title }}</div>
           <div style="font-size: 16px">{{ data.filmData.english }}</div>
           <div style="margin-top: 15px">
@@ -13,32 +13,35 @@
           <div style="margin-top: 5px">{{ data.filmData.start }} 中国大陆上映</div>
           <div style="display: flex; margin-top: 55px">
             <div style="flex: 1; margin-right: 5px">
-              <el-button v-if="data.collectFlag" @click="collect" style="width: 100%; height: 40px; font-size: 16px; background-color: #5a3686; border: none; color: white">
-                <el-icon size="24" style="color: orange"><StarFilled /></el-icon><span style="margin-left: 5px">已想看</span>
+              <el-button v-if="data.collectFlag" @click="collect" style="width: 100%; height: 40px; font-size: 16px; background-color: #ef4238; border: none; color: #fcfcfc">
+                <el-icon size="24" style="color: #eac47a"><StarFilled /></el-icon><span style="margin-left: 5px">已想看</span>
               </el-button>
-              <el-button v-else @click="collect" style="width: 100%; height: 40px; font-size: 16px; background-color: #5a3686; border: none; color: white">
+              <el-button v-else @click="collect" style="width: 100%; height: 40px; font-size: 16px; background-color: #ef4238; border: none; color: #fcfcfc">
                 <el-icon size="large"><Star /></el-icon> <span style="margin-left: 5px">想看</span>
               </el-button>
             </div>
             <div style="flex: 1; margin-left: 5px">
-              <el-button style="width: 100%; height: 40px; font-size: 16px; background-color: #5a3686; border: none; color: white">
+              <el-button v-if="data.scoreFlag" style="width: 100%; height: 40px; font-size: 16px; background-color: #ef4238; border: none; color: #fcfcfc" @click="">
+                <el-icon size="24" style="color: #eac47a"><Comment /></el-icon> <span style="margin-left: 5px">已评分</span>
+              </el-button>
+              <el-button v-else style="width: 100%; height: 40px; font-size: 16px; background-color: #ef4238; border: none; color: #fcfcfc" @click="scoreInit">
                 <el-icon size="large"><ChatDotSquare /></el-icon> <span style="margin-left: 5px">评分</span>
               </el-button>
             </div>
           </div>
           <el-button style="background-color: #ef4238; border: none; color: white; width: 100%; margin-top: 10px; height: 40px; font-size: 16px" @click="router.push('/front/filmCinema?id=' + data.filmData.id)">特惠购票</el-button>
         </div>
-        <div style="width: 250px; color: white">
+        <div style="width: 250px; color: #130c0c">
           <div style="font-size: 12px">影片口碑</div>
           <div style="display: flex; align-items: center">
             <div style="width: 100px; font-weight: bold; font-size: 16px"><span style="font-size: 30px">{{ data.filmData.score }}</span> 分</div>
             <div style="flex: 1">
-              <el-rate v-model="data.filmData.score" disabled/>
-              <div>2人评分</div>
+              <el-rate v-model="data.halfScore" disabled/>
+              <div>{{data.scoreTime}}人评分</div>
             </div>
           </div>
           <div style="margin-top: 10px; font-size: 12px">累计票房</div>
-          <div style="margin-top: 5px; font-weight: bold; font-size: 16px"><span style="font-size: 25px">500.23</span> 元</div>
+          <div style="margin-top: 5px; font-weight: bold; font-size: 16px"><span style="font-size: 25px">{{(data.filmData.total * 1).toFixed(2)}}</span> 元</div>
         </div>
       </div>
     </div>
@@ -105,15 +108,15 @@
         <div style="font-size: 20px; border-left: 3px solid red; padding-left: 5px; line-height: 30px; margin-top: 40px">票房</div>
         <div style="margin-top: 20px; display: flex; background-color: #f8f8f8; padding: 30px 40px">
           <div style="flex: 1">
-            <div style="font-size: 26px; text-align: center; color: red">8</div>
+            <div style="font-size: 26px; text-align: center; color: red">{{data.priceRanking}}</div>
             <div style="font-size: 20px; text-align: center">票房排名</div>
           </div>
           <div style="flex: 1">
-            <div style="font-size: 26px; text-align: center; color: red">29.9</div>
+            <div style="font-size: 26px; text-align: center; color: red">{{(data.todayPrice * 1).toFixed(2)}}</div>
             <div style="font-size: 20px; text-align: center">今日票房（元）</div>
           </div>
           <div style="flex: 1">
-            <div style="font-size: 26px; text-align: center; color: red">29.9</div>
+            <div style="font-size: 26px; text-align: center; color: red">{{(data.filmData.total * 1).toFixed(2)}}</div>
             <div style="font-size: 20px; text-align: center">总票房（元）</div>
           </div>
         </div>
@@ -141,6 +144,25 @@
         </div>
       </div>
     </el-dialog>
+    <el-dialog title="电影评分" v-model="data.scoreVisible" width="40%" destroy-on-close>
+      <el-form ref="form" label-width="70px" style="padding: 20px">
+        <el-form-item prop="score" label="电影评分">
+          <el-rate
+              v-model="data.score"
+              :max="10"
+              show-score
+              text-color="#ff9900"
+              score-template="{value} 分"
+          />
+        </el-form-item>
+      </el-form>
+      <template #footer>
+    <span class="dialog-footer">
+      <el-button @click="data.scoreVisible = false">取 消</el-button>
+      <el-button type="primary" @click="submitScore">提 交</el-button>
+    </span>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
@@ -159,6 +181,13 @@ const data = reactive({
   formVisible: false,
   actorData: [],
   collectFlag: false,
+  score: 10,
+  scoreVisible: false,
+  scoreFlag: false,
+  scoreTime: 0,
+  halfScore: 0,
+  todayPrice: 0,
+  priceRanking: 0,
 })
 
 const loadCollect = () => {
@@ -195,6 +224,8 @@ const loadFilm = () => {
   request.get('/film/selectById/' + data.filmId).then(res => {
     if (res.code === '200') {
       data.filmData = res.data
+      data.halfScore = (data.filmData.score / 2).toFixed(1)
+      loadTodayPrice()
     } else {
       ElMessage.error(res.msg)
     }
@@ -230,6 +261,74 @@ const viewInit = (item) => {
   data.form = JSON.parse(JSON.stringify(item))
   data.formVisible = true
 }
+
+const scoreInit = () => {
+  data.scoreVisible = true
+}
+const submitScore = () => {
+  let scoreData = {
+    filmId: data.filmId,
+    score: data.score
+  }
+  request.post('/score/add', scoreData).then(res => {
+    if (res.code === '200') {
+      ElMessage.success('评分成功')
+      data.scoreVisible = false
+      loadFilm()
+      loadScore()
+      loadScoreTime()
+    } else {
+      ElMessage.error(res.msg)
+    }
+  })
+}
+const loadScore = () => {
+  request.get('/score/selectAll', {
+    params: {
+      filmId: data.filmId,
+      userId: data.user.id
+    }
+  }).then(res => {
+    if (res.code === '200') {
+      data.scoreFlag = res.data.length
+    }
+  })
+}
+const loadScoreTime = () => {
+  request.get('/score/selectAll', {
+    params: {
+      filmId: data.filmId,
+    }
+  }).then(res => {
+    if (res.code === '200') {
+      data.scoreTime = res.data.length
+    }
+  })
+}
+
+const loadTodayPrice = () => {
+  request.get('/orders/selectTodayPrice/' + data.filmId).then(res => {
+    if (res.code === '200') {
+      data.todayPrice = res.data
+    } else {
+      ElMessage.error(res.msg)
+    }
+  })
+}
+
+const loadPriceRanking = () => {
+  request.get('/film/selectPriceRanking/' + data.filmId).then(res => {
+    if (res.code === '200') {
+      data.priceRanking = res.data
+    } else {
+      ElMessage.error(res.msg)
+    }
+  })
+}
+
+loadPriceRanking()
+loadScore()
+loadScoreTime()
 loadFilm()
 loadVideo()
 loadActor()

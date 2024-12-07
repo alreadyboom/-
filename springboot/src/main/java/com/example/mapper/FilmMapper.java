@@ -18,4 +18,9 @@ public interface FilmMapper {
 
     List<Film> selectAll(Film film);
 
+    @Select("select * from film order by total desc limit 10")
+    List<Film> selectTotalTop10();
+    @Select("select * from film order by score desc limit 10")
+    List<Film> selectScoreTop10();
+
 }

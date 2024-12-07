@@ -1,8 +1,10 @@
 package com.example.service;
 
 import cn.hutool.core.date.DateUtil;
+import com.example.entity.Actor;
 import com.example.entity.Area;
 import com.example.entity.Film;
+import com.example.mapper.ActorMapper;
 import com.example.mapper.AreaMapper;
 import com.example.mapper.FilmMapper;
 import com.github.pagehelper.PageHelper;
@@ -15,7 +17,9 @@ import com.example.entity.Type;
 import com.example.mapper.TypeMapper;
 import java.util.ArrayList;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 业务层方法
@@ -29,6 +33,8 @@ public class FilmService {
     private TypeMapper typeMapper;
     @Resource
     private AreaMapper areaMapper;
+    @Resource
+    private ActorMapper actorMapper;
 
     public void add(Film film) {
         film.setTypeIds(JSONUtil.toJsonStr(film.getIds()));
@@ -90,5 +96,43 @@ public class FilmService {
         }
         return PageInfo.of(list);
     }
+
+    public List<Film> selectTotalTop10() {
+        List<Film> films = filmMapper.selectTotalTop10();
+        for (Film film : films) {
+            initActors(film);
+        }
+        return films;
+    }
+
+    public List<Film> selectScoreTop10() {
+        List<Film> films = filmMapper.selectScoreTop10();
+        for (Film film : films) {
+            initActors(film);
+        }
+        return films;
+    }
+
+    private void initActors(Film film) {
+        Actor actor = new Actor();
+        actor.setFilmId(film.getId());
+        List<Actor> actors = actorMapper.selectAll(actor);
+        List<String> actorsNameList = actors.stream().map(Actor::getName).collect(Collectors.toList());
+        film.setActors(actorsNameList);
+    }
+
+    public Integer selectPriceRanking(Integer filmId) {
+        List<Film> films = filmMapper.selectAll(new Film());
+        List<Film> rankList = films.stream()
+                .sorted(Comparator.comparingDouble(Film::getTotal).reversed())
+                .collect(Collectors.toList());
+        for (int i = 0; i < rankList.size(); i++) {
+            if (rankList.get(i).getId().equals(filmId)) {
+                return i + 1;
+            }
+        }
+        return null;
+    }
+
 
 }
